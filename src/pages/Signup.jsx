@@ -1,18 +1,50 @@
 import Header from "../components/Header";
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const refId = useRef(null);
+  const refNickname = useRef(null);
+  const refPw = useRef(null);
+  const refConfirm = useRef(null);
+
+  const navigate = useNavigate();
+
+  const onClickChecked = () => {
+    if (
+      !(
+        refId.current.value !== "" &&
+        refNickname.current.value !== "" &&
+        refPw.current.value !== "" &&
+        refConfirm.current.value !== ""
+      )
+    ) {
+      return alert("빈 칸을 채워주세요!");
+    } else {
+      return navigate("/login");
+    }
+  };
   return (
     <>
       <Header></Header>
       <StyledLoginBox>
         <h1>회원가입</h1>
-        <input placeholder="id" type="email" name="id"></input>
-        <input placeholder="nickname" type="text" name="nickname"></input>
-        <input placeholder="pw" type="password" name="pw"></input>
-        <input placeholder="confirm" type="password" name="confirm"></input>
-        <button>회원가입</button>
+        <input ref={refId} placeholder="id" type="email" name="id"></input>
+        <input
+          ref={refNickname}
+          placeholder="nickname"
+          type="text"
+          name="nickname"
+        ></input>
+        <input ref={refPw} placeholder="pw" type="password" name="pw"></input>
+        <input
+          ref={refConfirm}
+          placeholder="confirm"
+          type="password"
+          name="confirm"
+        ></input>
+        <button onClick={onClickChecked}>회원가입</button>
       </StyledLoginBox>
     </>
   );
