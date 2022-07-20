@@ -19,18 +19,17 @@ export const FBloginAction = createAsyncThunk(
 
 export const FBloadedAction = createAsyncThunk("user/load", async (param) => {
   const loginReq = { ...param };
-
   let user_docs;
   let getUserInfo;
-  try {
-    user_docs = await getDocs(
-      query(collection(db, "userDB"), where("userId", "==", loginReq.email))
-    );
-    user_docs.forEach((el) => (getUserInfo = { ...el.data() }));
-    return getUserInfo;
-  } catch (err) {
-    return console.log("로그인 firestore 액션함수:", err);
-  }
+  user_docs = await getDocs(
+    query(collection(db, "userDB"), where("userId", "==", loginReq.email))
+  );
+  user_docs.forEach((el) => (getUserInfo = { ...el.data() }));
+  return getUserInfo;
+  // try {
+  // } catch (err) {
+  //   return console.log(err);
+  // }
 });
 
 // 유저정보 리듀서

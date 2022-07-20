@@ -9,6 +9,7 @@ import { auth } from "./shared/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { FBloadedAction } from "./redux/modules/userSlice";
+import { FBloadContent } from "./redux/modules/contentSlice";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -23,10 +24,11 @@ function App() {
   };
   useEffect(() => {
     onAuthStateChanged(auth, loginCheck);
-  }, [auth]);
+  }, []);
 
   useEffect(() => {
     dispatch(FBloadedAction(auth.currentUser));
+    dispatch(FBloadContent());
   });
 
   return (
