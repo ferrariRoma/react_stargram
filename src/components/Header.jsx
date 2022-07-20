@@ -17,7 +17,7 @@ const Header = () => {
       <StyledHeader>
         <StyledBtnDiv onClick={onClickHomeLogo}>별스타</StyledBtnDiv>
 
-        <div class="logedOut">
+        <div>
           <StyledBtnDiv onClick={onClickLogin}>Login</StyledBtnDiv>
           <StyledBtnDiv onClick={onClickSignup}>Sign Up</StyledBtnDiv>
         </div>

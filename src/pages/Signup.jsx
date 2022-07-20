@@ -2,8 +2,13 @@ import Header from "../components/Header";
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import app from "../shared/firebase";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../shared/firebase";
 
 const Signup = () => {
+  // input ref
   const refId = useRef(null);
   const refNickname = useRef(null);
   const refPw = useRef(null);
@@ -11,7 +16,11 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const onClickChecked = () => {
+  // validation
+  const isValidEmail = (email) => {
+    return /\S+@\S+\.\S+/.test(email);
+  };
+  const onClickChecked = async () => {
     if (
       !(
         refId.current.value !== "" &&
@@ -21,7 +30,32 @@ const Signup = () => {
       )
     ) {
       return alert("빈 칸을 채워주세요!");
+    } else if (!isValidEmail(refId.current.value)) {
+      return alert("ID가 이메일 형식이 아닙니다.");
+    } else if (refPw.current.value !== refConfirm.current.value) {
+      return alert("비밀번호가 다릅니다.");
     } else {
+      try {
+        const new_user = await createUserWithEmailAndPassword(
+          getAuth(app),
+          refId.current.value,
+          refPw.current.value
+        );
+
+        const {
+          user: {
+            metadata: { createdAt },
+          },
+        } = new_user;
+        const userId = new_user.user.email;
+        const nickname = refNickname.current.value;
+        const contents = [];
+
+        const userinfo = { userId, nickname, createdAt, contents };
+        await addDoc(collection(db, "userDB"), userinfo);
+      } catch (err) {
+        alert(err.name);
+      }
       return navigate("/login");
     }
   };
@@ -30,13 +64,8 @@ const Signup = () => {
       <Header></Header>
       <StyledLoginBox>
         <h1>회원가입</h1>
-        <input ref={refId} placeholder="id" type="email" name="id"></input>
-        <input
-          ref={refNickname}
-          placeholder="nickname"
-          type="text"
-          name="nickname"
-        ></input>
+        <input ref={refId} placeholder="id" name="id"></input>
+        <input ref={refNickname} placeholder="nickname" name="nickname"></input>
         <input ref={refPw} placeholder="pw" type="password" name="pw"></input>
         <input
           ref={refConfirm}
@@ -52,7 +81,7 @@ const Signup = () => {
 
 export default Signup;
 
-const StyledLoginBox = styled.div`
+export const StyledLoginBox = styled.div`
   margin: auto;
   margin-top: 10rem;
 

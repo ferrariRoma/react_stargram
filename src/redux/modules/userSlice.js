@@ -1,4 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+export const FBuserCreate = createAsyncThunk(
+  "user/signup",
+  async (userinfo) => {
+    const get_userinfo = { ...userinfo };
+
+    return get_userinfo;
+  }
+);
 
 // 유저정보 리듀서
 const userSlice = createSlice({
@@ -6,28 +15,8 @@ const userSlice = createSlice({
   initialState: {
     userId: null,
     userName: null,
-    textId: [],
-  },
-  reducers: {
-    createUserAction(state, action) {
-      return console.log("user Create 리듀서 안 입니다.");
-    },
-    readUserAction(state, action) {
-      return console.log("user Read 리듀서 안 입니다.");
-    },
-    updateUserAction(state, action) {
-      return console.log("user Update 리듀서 안 입니다.");
-    },
-    deleteUserAction(state, action) {
-      return console.log("user Delete 리듀서 안 입니다.");
-    },
+    contentId: [],
   },
 });
 
-export const {
-  createUserAction,
-  readUserAction,
-  updateUserAction,
-  deleteUserAction,
-} = userSlice.actions;
 export default userSlice.reducer;
