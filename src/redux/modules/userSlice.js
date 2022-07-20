@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// 유저 리듀서
+// 유저정보 리듀서
 const userSlice = createSlice({
   name: "user",
   initialState: {
     userId: null,
     userName: null,
+    textId: [],
   },
   reducers: {
     createUserAction(state, action) {

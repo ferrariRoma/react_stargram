@@ -5,8 +5,9 @@ const contentSlice = createSlice({
   name: "content",
   initialState: {
     like: 0,
-    imgUrl: null,
+    imgUrl: [],
     text: null,
+    uploader: null,
   },
   reducers: {
     createContentAction(state, action) {
