@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../shared/firebase";
+import { signOut } from "firebase/auth";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -12,14 +14,33 @@ const Header = () => {
   const onClickSignup = () => {
     navigate("/signup");
   };
+
+  const onClickUpload = () => {
+    navigate("/upload");
+  };
+  const onClickLogout = async () => {
+    await signOut(auth);
+    navigate("/");
+  };
+
   return (
     <>
       <StyledHeader>
         <StyledBtnDiv onClick={onClickHomeLogo}>별스타</StyledBtnDiv>
 
         <div>
-          <StyledBtnDiv onClick={onClickLogin}>Login</StyledBtnDiv>
-          <StyledBtnDiv onClick={onClickSignup}>Sign Up</StyledBtnDiv>
+          {auth.currentUser ? (
+            <>
+              <StyledBtnDiv>username</StyledBtnDiv>
+              <StyledBtnDiv onClick={onClickUpload}>upload</StyledBtnDiv>
+              <StyledBtnDiv onClick={onClickLogout}>logout</StyledBtnDiv>
+            </>
+          ) : (
+            <>
+              <StyledBtnDiv onClick={onClickLogin}>Login</StyledBtnDiv>
+              <StyledBtnDiv onClick={onClickSignup}>Sign Up</StyledBtnDiv>
+            </>
+          )}
         </div>
       </StyledHeader>
     </>
