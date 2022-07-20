@@ -49,8 +49,9 @@ const Signup = () => {
         const userId = new_user.user.email;
         const username = refUsername.current.value;
         const contentId = [];
+        const likedId = [];
 
-        const userinfo = { userId, username, createdAt, contentId };
+        const userinfo = { userId, username, createdAt, contentId, likedId };
         await addDoc(collection(db, "userDB"), userinfo);
       } catch (err) {
         return alert(err.name);
@@ -92,15 +93,17 @@ export const StyledLoginBox = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 1rem;
   width: 30rem;
-  height: 30rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 
-  > * {
-    margin-bottom: 2rem;
+  * {
+    margin-bottom: 1rem;
     font-family: Gaegu;
     font-size: 1.5rem;
   }
+
   h1 {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
 
   input {
@@ -112,5 +115,27 @@ export const StyledLoginBox = styled.div`
     &:focus {
       border-bottom: 2px solid rgba(27, 157, 252, 1);
     }
+  }
+
+  label {
+    margin-right: 1rem;
+  }
+  select {
+    width: 50%;
+  }
+
+  .textareaBox {
+    height: 9rem;
+    width: 100%;
+    margin-bottom: 5rem;
+  }
+
+  textarea {
+    height: 6rem;
+    width: 50%;
+    resize: none;
+    border: 0.5px solid rgba(0, 0, 0, 0.5);
+    border-radius: 1rem;
+    padding: 1rem;
   }
 `;

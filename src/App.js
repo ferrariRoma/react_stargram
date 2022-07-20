@@ -7,7 +7,7 @@ import Upload from "./pages/Upload";
 import { useEffect, useState } from "react";
 import { auth } from "./shared/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FBloadedAction } from "./redux/modules/userSlice";
 
 function App() {
@@ -28,8 +28,6 @@ function App() {
   useEffect(() => {
     dispatch(FBloadedAction(auth.currentUser));
   });
-  const result = useSelector((state) => console.log(state));
-  console.log(result);
 
   return (
     <div className="App">
