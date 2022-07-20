@@ -2,15 +2,14 @@ import Header from "../components/Header";
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import app from "../shared/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../shared/firebase";
+import { db, auth } from "../shared/firebase";
 
 const Signup = () => {
   // input ref
   const refId = useRef(null);
-  const refNickname = useRef(null);
+  const refUsername = useRef(null);
   const refPw = useRef(null);
   const refConfirm = useRef(null);
 
@@ -24,7 +23,7 @@ const Signup = () => {
     if (
       !(
         refId.current.value !== "" &&
-        refNickname.current.value !== "" &&
+        refUsername.current.value !== "" &&
         refPw.current.value !== "" &&
         refConfirm.current.value !== ""
       )
@@ -37,7 +36,7 @@ const Signup = () => {
     } else {
       try {
         const new_user = await createUserWithEmailAndPassword(
-          getAuth(app),
+          auth,
           refId.current.value,
           refPw.current.value
         );
@@ -48,13 +47,13 @@ const Signup = () => {
           },
         } = new_user;
         const userId = new_user.user.email;
-        const nickname = refNickname.current.value;
-        const contents = [];
+        const username = refUsername.current.value;
+        const contentId = [];
 
-        const userinfo = { userId, nickname, createdAt, contents };
+        const userinfo = { userId, username, createdAt, contentId };
         await addDoc(collection(db, "userDB"), userinfo);
       } catch (err) {
-        alert(err.name);
+        return alert(err.name);
       }
       return navigate("/login");
     }
@@ -65,7 +64,7 @@ const Signup = () => {
       <StyledLoginBox>
         <h1>회원가입</h1>
         <input ref={refId} placeholder="id" name="id"></input>
-        <input ref={refNickname} placeholder="nickname" name="nickname"></input>
+        <input ref={refUsername} placeholder="Username" name="Username"></input>
         <input ref={refPw} placeholder="pw" type="password" name="pw"></input>
         <input
           ref={refConfirm}
