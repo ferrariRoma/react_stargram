@@ -1,16 +1,20 @@
 import Header from "../components/Header";
 import ContentStyle from "../components/ContentStyle";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+  const requestContent = useSelector((state) => state.content.content);
+  console.log(requestContent);
+
   return (
     <>
       <Header />
       <ContentBox>
-        <ContentStyle />
-        <ContentStyle />
-        <ContentStyle />
+        {requestContent.map((el) => (
+          <ContentStyle props={el} />
+        ))}
       </ContentBox>
     </>
   );
@@ -23,5 +27,4 @@ const ContentBox = styled.div`
   margin-top: 10rem;
   width: 70vw;
   height: 80vh;
-  ${"" /* background-color: blue; */}
 `;

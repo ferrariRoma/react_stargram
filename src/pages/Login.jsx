@@ -1,13 +1,11 @@
 import Header from "../components/Header";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StyledLoginBox } from "./Signup";
 import { FBloadedAction, FBloginAction } from "../redux/modules/userSlice";
-import { auth } from "../shared/firebase";
 
 const Login = () => {
-  const [loadState, setLoadState] = useState(false);
   const refId = useRef(null);
   const refPw = useRef(null);
 
