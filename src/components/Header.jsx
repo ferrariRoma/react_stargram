@@ -2,9 +2,12 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../shared/firebase";
 import { signOut } from "firebase/auth";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+
   const onClickHomeLogo = () => {
     navigate("/");
   };
@@ -31,7 +34,7 @@ const Header = () => {
         <div>
           {auth.currentUser ? (
             <>
-              <StyledBtnDiv>username</StyledBtnDiv>
+              <StyledBtnDiv>{user.user?.username}</StyledBtnDiv>
               <StyledBtnDiv onClick={onClickUpload}>upload</StyledBtnDiv>
               <StyledBtnDiv onClick={onClickLogout}>logout</StyledBtnDiv>
             </>
