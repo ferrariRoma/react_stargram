@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StyledLoginBox } from "./Signup";
-import { FBloginAction } from "../redux/modules/userSlice";
+import { FBloadedAction, FBloginAction } from "../redux/modules/userSlice";
 import { auth } from "../shared/firebase";
 
 const Login = () => {
@@ -22,8 +22,9 @@ const Login = () => {
         userId: refId.current.value,
         pw: refPw.current.value,
       };
-      dispatch(FBloginAction(userObj));
-      // console.log(auth.currentUser);
+      let getEmail = await dispatch(FBloginAction(userObj));
+      // 로그인한 유저의 auth.currentUser가 getEmail변수의 payload 안에 담김.
+      dispatch(FBloadedAction(getEmail.payload));
       return navigate("/");
     }
   };
