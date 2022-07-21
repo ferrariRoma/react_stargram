@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import ContentStyle from "../components/ContentStyle";
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
@@ -12,9 +12,10 @@ const Home = () => {
     <>
       <Header />
       <ContentBox>
-        {requestContent.map((el) => (
-          <ContentStyle props={el} />
-        ))}
+        {requestContent &&
+          requestContent.map((el) => (
+            <ContentStyle key={Date.now() + Math.random() * 100} props={el} />
+          ))}
       </ContentBox>
     </>
   );

@@ -2,15 +2,21 @@ import Header from "../components/Header";
 import { StyledLoginBox } from "./Signup";
 import { useRef } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDoc } from "firebase/firestore";
 import { storage, db } from "../shared/firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  createContentAction,
+  FBloadContent,
+} from "../redux/modules/contentSlice";
 
 const Upload = () => {
   const refPhotoStyle = useRef(null);
   const refFile = useRef(null);
   const refTextarea = useRef(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onClickUpload = async () => {
     console.log(
@@ -18,13 +24,15 @@ const Upload = () => {
       refFile.current.url,
       refTextarea.current.value
     );
-    const textInfo = {
+    let textInfo = {
       photoStyle: refPhotoStyle.current.value,
       fileUrl: refFile.current.url,
       text: refTextarea.current.value,
       like: 0,
     };
     await addDoc(collection(db, "contentDB"), textInfo);
+    dispatch(FBloadContent(textInfo));
+
     navigate("/");
   };
 

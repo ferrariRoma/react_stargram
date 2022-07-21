@@ -2,39 +2,32 @@ import React from "react";
 import styled from "styled-components";
 
 const ContentStyle = (props) => {
+  const { fileUrl, like, photoStyle, text } = props.props;
   console.log(props);
   return (
     <>
-      <PhotoRightContentBox>
-        <div className="textBox">글</div>
-        <div className="photoBox">
-          <img src="https://firebasestorage.googleapis.com/v0/b/react-stargram.appspot.com/o/images%2F277101534_4982028108555662_5312134991439326272_n.jpg?alt=media&token=920e9abb-ca6a-420a-9c16-e561e780175b"></img>
-        </div>
-      </PhotoRightContentBox>
-      <PhotoRightContentBox>
-        <div className="photoBox">
-          <img src="https://firebasestorage.googleapis.com/v0/b/react-stargram.appspot.com/o/images%2F1565017373173.jpg?alt=media&token=bf11bd0e-2922-45de-898b-2238e5444170"></img>
-        </div>
-        <div className="textBox">
-          이 글은 정말정말정말 긴 글이에요. 이 글은 정말정말정말 긴 글이에요. 이
-          글은 정말정말정말 긴 글이에요. 이 글은 정말정말정말 긴 글이에요. 이
-          글은 정말정말정말 긴 글이에요. 이 글은 정말정말정말 긴 글이에요. 이
-          글은 정말정말정말 긴 글이에요. 이 글은 정말정말정말 긴 글이에요. 이
-          글은 정말정말정말 긴 글이에요. 이 글은 정말정말정말 긴 글이에요.
-        </div>
-      </PhotoRightContentBox>
-      <PhotoBottomContentBox>
-        <div className="textBox">
-          이 글은 정말정말정말 긴 글이에요. 이 글은 정말정말정말 긴 글이에요. 이
-          글은 정말정말정말 긴 글이에요. 이 글은 정말정말정말 긴 글이에요. 이
-          글은 정말정말정말 긴 글이에요. 이 글은 정말정말정말 긴 글이에요. 이
-          글은 정말정말정말 긴 글이에요. 이 글은 정말정말정말 긴 글이에요. 이
-          글은 정말정말정말 긴 글이에요. 이 글은 정말정말정말 긴 글이에요.
-        </div>
-        <div className="photoBox">
-          <img src="https://firebasestorage.googleapis.com/v0/b/react-stargram.appspot.com/o/images%2F1599180952496.jpg?alt=media&token=d4cc3460-6125-4ae1-85c4-7400715f0e90"></img>
-        </div>
-      </PhotoBottomContentBox>
+      {photoStyle === "rightPhoto" ? (
+        <PhotoRightContentBox>
+          <div className="textBox">{text}</div>
+          <div className="photoBox">
+            <img src={fileUrl}></img>
+          </div>
+        </PhotoRightContentBox>
+      ) : photoStyle === "leftPhoto" ? (
+        <PhotoRightContentBox>
+          <div className="photoBox">
+            <img src={fileUrl}></img>
+          </div>
+          <div className="textBox">{text}</div>
+        </PhotoRightContentBox>
+      ) : (
+        <PhotoBottomContentBox>
+          <div className="textBox">{text}</div>
+          <div className="photoBox">
+            <img src={fileUrl}></img>
+          </div>
+        </PhotoBottomContentBox>
+      )}
     </>
   );
 };
