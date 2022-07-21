@@ -4,16 +4,18 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Upload from "./pages/Upload";
-import { useEffect, useState } from "react";
+import ContentDetail from "./pages/ContentDetail";
 import { auth } from "./shared/firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import { useDispatch } from "react-redux";
 import { FBloadedAction } from "./redux/modules/userSlice";
 import { FBloadContent } from "./redux/modules/contentSlice";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { onAuthStateChanged } from "firebase/auth";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
+  console.log(isLogin);
 
   const loginCheck = async (user) => {
     if (user) {
@@ -38,6 +40,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/upload" element={<Upload />} />
+        <Route path="/content/:id" element={<ContentDetail />} />
       </Routes>
     </div>
   );
