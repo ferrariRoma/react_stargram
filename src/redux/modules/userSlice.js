@@ -1,6 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { getDocs, query, collection, where } from "firebase/firestore";
+import {
+  getDocs,
+  query,
+  collection,
+  where,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../../shared/firebase";
 import { auth } from "../../shared/firebase";
 
@@ -17,6 +24,25 @@ export const FBloginAction = createAsyncThunk(
   }
 );
 
+export const FBuploadContent = createAsyncThunk(
+  "user/upload",
+  async (getId) => {
+    let getUserInfo;
+    const user_docs = await getDocs(
+      query(
+        collection(db, "userDB"),
+        where("userId", "==", auth.currentUser.email)
+      )
+    );
+    user_docs.forEach((el) => (getUserInfo = { ...el.data(), dbId: el.id }));
+    getUserInfo.contentId.push(getId);
+
+    const searchFB = doc(db, "userDB", getUserInfo.dbId);
+    await updateDoc(searchFB, getUserInfo);
+    return getUserInfo;
+  }
+);
+
 export const FBloadedAction = createAsyncThunk("user/load", async (param) => {
   const loginReq = { ...param };
   let user_docs;
@@ -24,7 +50,7 @@ export const FBloadedAction = createAsyncThunk("user/load", async (param) => {
   user_docs = await getDocs(
     query(collection(db, "userDB"), where("userId", "==", loginReq.email))
   );
-  user_docs.forEach((el) => (getUserInfo = { ...el.data() }));
+  user_docs.forEach((el) => (getUserInfo = { ...el.data(), userId: el.id }));
   return getUserInfo;
   // try {
   // } catch (err) {
@@ -42,6 +68,9 @@ const userSlice = createSlice({
       return getInfo;
     });
     builder.addCase(FBloadedAction.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addCase(FBuploadContent.fulfilled, (state, action) => {
       state.user = action.payload;
     });
   },

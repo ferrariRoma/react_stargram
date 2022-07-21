@@ -4,7 +4,6 @@ import { db } from "../../shared/firebase";
 
 export const FBloadContent = createAsyncThunk("content/load", async () => {
   const request = await getDocs(collection(db, "contentDB"));
-  console.log(collection(db, "contentDB"));
   const getResult = [];
   request.forEach((el) => {
     const loadedInfo = {

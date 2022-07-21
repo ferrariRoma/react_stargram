@@ -6,10 +6,8 @@ import { addDoc, collection, getDoc } from "firebase/firestore";
 import { storage, db } from "../shared/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {
-  createContentAction,
-  FBloadContent,
-} from "../redux/modules/contentSlice";
+import { FBloadContent } from "../redux/modules/contentSlice";
+import { FBuploadContent } from "../redux/modules/userSlice";
 
 const Upload = () => {
   const refPhotoStyle = useRef(null);
@@ -30,8 +28,10 @@ const Upload = () => {
       text: refTextarea.current.value,
       like: 0,
     };
-    await addDoc(collection(db, "contentDB"), textInfo);
+    const uploadedInfo = await addDoc(collection(db, "contentDB"), textInfo);
+    const uploadedId = await getDoc(uploadedInfo);
     dispatch(FBloadContent(textInfo));
+    dispatch(FBuploadContent(uploadedId.id));
 
     navigate("/");
   };

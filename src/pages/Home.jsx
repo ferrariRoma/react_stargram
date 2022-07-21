@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 
 const Home = () => {
   const requestContent = useSelector((state) => state.content.content);
-  console.log(requestContent);
 
   return (
     <>
@@ -23,7 +22,7 @@ const Home = () => {
 
 export default Home;
 
-const ContentBox = styled.div`
+export const ContentBox = styled.div`
   margin: auto;
   margin-top: 10rem;
   width: 70vw;
